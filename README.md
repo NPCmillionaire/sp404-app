@@ -18,7 +18,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/screenshot-dark.png">
-    <img src="docs/screenshot-light.png" alt="sp404.app with the Amen-style break loaded from the library: the Breaks folder on the left, a waveform cut into 16 slices labelled A01 to A16, the chop controls underneath, and the SP-404MKII pads for bank A." width="860">
+    <img src="docs/screenshot-light.png" alt="sp404.app on one screen: the library with the Breaks folder on the left, the Amen-style break cut into 16 slices labelled A01 to A16 with the chop controls underneath, and the SP-404MKII pads, the selected slice and the export settings along the bottom." width="860">
   </picture>
 </p>
 
@@ -58,9 +58,11 @@ The **Library** panel on the left works like a sampler's file browser: click a f
 
 The Amen-style break loads when the page opens, already chopped across bank A, so you can try every control before you use your own audio.
 
+The whole app fits on one screen on a laptop or desktop (about 1180 px wide or more), so there's no scrolling. The library is on the left, the waveform and chop controls are in the middle, and the pads, the selected slice and the export settings are along the bottom. On a tablet or phone it stacks into one column. Click **? Help** in the top right for the mouse and keyboard shortcuts.
+
 1. **Open the app.** Go to the [web app](https://npcmillionaire.github.io/sp404-app/) in Chrome, Edge, Firefox or Safari on a computer, or [run it offline](#download-it-and-run-it-offline).
 2. **Load a sound.** In the **Library**, open a folder and click a sound's name (**▶** previews it first). To use your own audio, click **Upload** (or **Folder**), or drag files onto the page. WAV, AIFF, MP3, FLAC, OGG and M4A all work (M4A and OGG depend on your browser). The file name, length, sample rate and channels show above the waveform.
-3. **Choose how to chop it** under **Chop by**, then click **Chop**:
+3. **Choose how to chop it** with the **Transients / Equal / Beats** buttons under the waveform, then click **Chop**:
 
    | Mode | Use it for | Settings |
    |---|---|---|
@@ -68,7 +70,7 @@ The Amen-style break loads when the page opens, already chopped across bank A, s
    | **Equal** | Pads, textures, vocal phrases, evenly spaced chops | **Slices**: 2 to 64 |
    | **Beats** | Loops that are already in time | **BPM** and **One slice every** (1/16 note up to 2 bars) |
 
-   Leave **Snap to zero crossings** on. It nudges each cut to the nearest point where the waveform crosses zero, which stops clicks.
+   Leave **Snap to zero** on. It nudges each cut to the nearest point where the waveform crosses zero, which stops clicks.
 4. **Fine-tune the cuts** on the waveform:
 
    | To… | Do this |
@@ -84,17 +86,17 @@ The Amen-style break loads when the page opens, already chopped across bank A, s
 5. **Play and tidy the pads.** Click a pad, or use your keyboard: **1 2 3 4 / Q W E R / A S D F / Z X C V** play pads 1–16 of the bank on screen (the first 12 on 12-pad models), and **← →** step through slices. Switch banks with the **A–J** buttons. For the selected slice you can:
    - **Name** it (the name goes into the file name, e.g. `A05 chord.wav`)
    - **Reverse** it
-   - **Leave it off the pads** (quiet lead-ins are left off automatically)
-   - **Split in half** or **Merge with previous**
+   - **Leave off pads** (quiet lead-ins are left off automatically)
+   - **Split** it in half, or **Merge ←** it with the previous slice
 6. **Pick where it's going** under **Export for**: **MKII**, **SX · A**, **Original** or **DAW**. The pads redraw for that model (16 or 12 per bank).
 7. **Set the kit options.**
-   - **Kit name** is used for folder and file names (it defaults to the sound's name).
-   - **Start at bank** puts the first slice on pad 1 of that bank, so you don't overwrite banks you already use.
-   - **Normalize each pad** brings each slice up to −0.3 dB peak.
-   - **Declick edges** adds a very short fade in and out to every pad.
+   - **Kit** is the kit name used for folder and file names (it defaults to the sound's name).
+   - **Start** picks the bank; the first slice goes on pad 1 of that bank, so you don't overwrite banks you already use.
+   - **Normalize** brings each slice up to −0.3 dB peak.
+   - **Declick** adds a very short fade in and out to every pad.
    - **Mono** halves the file size, which helps on the SX's limited memory.
-   - **Tempo in file names** adds e.g. `92bpm` (MKII and DAW).
-8. **Click Export ZIP.** The panel shows the file layout before you export, and the load steps for your model underneath. The same steps are in the ZIP's pad map file.
+   - **BPM in names** adds e.g. `92bpm` (MKII and DAW).
+8. **Click Export ZIP.** Click **Load steps** next to it to see the files that go in the ZIP and how to load them on your model. The same steps are in the ZIP's pad map file.
 
 Your settings (mode, sensitivity, target, kit name, options) are remembered in that browser for next time.
 
@@ -263,9 +265,9 @@ A native plugin (VST3 on Windows and macOS, plus AU for Logic) is planned: the s
 
 **Too many slices, or it split every hi-hat.** Lower **Sensitivity** or raise **Min gap**, then click **Chop** again. For loops that are already in time, **Beats** mode is cleaner.
 
-**"X slices don't fit on the pads."** There are only 10 banks. Start at an earlier bank, merge slices, or tick **Leave off the pads** on the ones you don't need.
+**"X slices don't fit on the pads."** There are only 10 banks. Start at an earlier bank, merge slices, or tick **Leave off pads** on the ones you don't need.
 
-**Clicks at the start or end of a pad.** Keep **Snap to zero crossings** and **Declick edges** on.
+**Clicks at the start or end of a pad.** Keep **Snap to zero** and **Declick** on.
 
 **The sfizz kit is silent or missing samples.** Check the `.sfz` file is still in the same folder as its WAVs and nothing was renamed. Make sure the MIDI track sends notes from 36 up.
 

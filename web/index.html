@@ -21,6 +21,7 @@
   --display:"Chakra Petch","Arial Narrow",system-ui,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gap:12px; --bot-min:250px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -38,165 +39,246 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);margin:0}
-.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:24px 56px;display:grid;gap:20px}
-@media (max-width:480px){.wrap{padding-inline:16px}}
-header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
-.mark{font:700 clamp(32px,5.4vw,48px)/1 var(--display);letter-spacing:.005em;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--body);margin:0}
+
+/* ---------- app shell: everything fits in one screen ---------- */
+.app{display:grid;grid-template-rows:auto minmax(0,1fr);gap:10px;padding:10px 14px 14px;max-width:1760px;margin:0 auto;min-height:100vh}
+.main{display:grid;grid-template-columns:clamp(236px,19vw,290px) minmax(0,1fr);grid-template-rows:minmax(0,1fr) clamp(var(--bot-min),42vh,380px);gap:var(--gap);min-height:0}
+.lib{grid-row:1 / 3}
+.editor{grid-column:2;grid-row:1}
+.bottom{grid-column:2;grid-row:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(236px,.6fr) minmax(268px,.72fr);gap:var(--gap);min-height:0}
+@media (min-width:1180px) and (min-height:540px){
+  html,body{height:100%;overflow:hidden}
+  .app{height:100vh;height:100dvh;min-height:0}
+}
+
+/* ---------- top bar ---------- */
+.top{display:flex;align-items:center;gap:14px;min-width:0}
+.brand{display:flex;align-items:baseline;gap:12px;flex:none;min-width:0}
+.mark{font:700 26px/1 var(--display);letter-spacing:.005em;margin:0;white-space:nowrap}
 .mark span{color:var(--accent)}
-.tag{color:var(--muted);max-width:62ch;margin:8px 0 0}
-.lcd{background:var(--lcd);color:var(--lcd-ink);font:500 13px/1.35 var(--mono);padding:10px 14px;border-radius:6px;letter-spacing:.06em;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35);min-width:260px;max-width:100%;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media (max-width:480px){.lcd{min-width:0;width:100%}}
-h2{font:700 13px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;margin:0;color:var(--muted)}
+.tag{color:var(--muted);font-size:13px;margin:0;white-space:nowrap}
+.lcd{flex:1 1 auto;min-width:0;max-width:560px;margin-inline:auto;background:var(--lcd);color:var(--lcd-ink);font:500 12.5px/1.2 var(--mono);padding:9px 14px;border-radius:6px;letter-spacing:.06em;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topr{display:flex;align-items:center;gap:12px;flex:none}
+.legal{font-size:11.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:1299px){.legal{display:none}}
+
+/* ---------- shared ---------- */
+h2{font:700 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;margin:0;color:var(--muted)}
 h3{font:600 14px/1.3 var(--body);margin:0}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px;min-width:0}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;overflow:auto}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .between{justify-content:space-between}
-button,.btn{font:600 14px/1 var(--body);border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button,.btn{font:600 13px/1 var(--body);border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 button:hover,.btn:hover{border-color:var(--ink)}
 button:disabled{opacity:.45;cursor:not-allowed}
 button:focus-visible,.btn:focus-within,input:focus-visible,select:focus-visible,label.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 button.primary,.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-button.sq{width:38px;justify-content:center;padding:10px 0}
-button.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-weight:500;font-size:13px}
+button.sq{width:32px;padding:8px 0}
+button.sm,.btn.sm{padding:6px 10px;font-size:12.5px}
+button.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-weight:500;font-size:12.5px}
 input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-input[type=text],input[type=number],select{font:500 14px/1.2 var(--body);color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:9px 10px;min-width:0}
-input[type=number]{width:84px;font-family:var(--mono)}
-input[type=range]{accent-color:var(--accent);width:140px}
-label.f{display:grid;gap:5px;font-size:12.5px;color:var(--muted);font-weight:500}
-.src{font:13px/1.4 var(--mono);color:var(--muted);word-break:break-all;min-width:0}
-.flag{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:4px 7px;border-radius:4px}
-.note{font-size:13px;color:var(--muted);margin:0}
-.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.seg button{border:0;border-radius:0;border-right:1px solid var(--line);padding:9px 12px;font-size:13px;background:var(--panel2);justify-content:center}
+.btn{position:relative}
+input[type=text],input[type=number],select{font:500 13px/1.2 var(--body);color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:7px 9px;min-width:0}
+input[type=number]{width:66px;font-family:var(--mono)}
+input[type=range]{accent-color:var(--accent);width:100px}
+label.il{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap}
+label.opt{display:flex;gap:7px;align-items:center;font-size:13px;cursor:pointer;border-radius:6px;white-space:nowrap}
+label.opt input{margin:0;accent-color:var(--accent)}
+.src{font:12.5px/1.3 var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.flag{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:4px 7px;border-radius:4px;flex:none}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.seg button{border:0;border-radius:0;border-right:1px solid var(--line);padding:8px 11px;font-size:12.5px;background:var(--panel2)}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
 .seg.full{display:grid;width:100%}
-.seg.full button{padding:9px 4px}
-
-/* waveform stage */
-.wavebox{position:relative;background:var(--hw);border-radius:10px;padding:10px;display:grid;gap:8px}
-canvas{display:block;width:100%;touch-action:none}
-#wave{height:210px;border-radius:6px;background:var(--wave-bg);cursor:crosshair}
-#over{height:34px;border-radius:5px;background:var(--wave-bg);cursor:pointer}
-@media (max-width:600px){#wave{height:170px}}
-.veil{position:absolute;inset:0;border-radius:10px;border:2px dashed var(--accent);background:rgba(20,22,25,.78);color:#fff;font:700 18px var(--display);letter-spacing:.06em;display:grid;place-items:center;text-transform:uppercase}
-.hint{font-size:12.5px;color:var(--muted);margin:0}
-.chop{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;border-top:1px solid var(--line);padding-top:14px}
-.params{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-label.opt{display:flex;gap:9px;align-items:flex-start;font-size:14px;cursor:pointer;border-radius:6px}
-label.opt input{margin-top:3px;accent-color:var(--accent)}
-label.opt small{display:block;color:var(--muted);font-size:12.5px}
+.seg.full button{padding:8px 4px}
 .rv{font:500 12px var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;min-width:3ch;display:inline-block}
 
-/* library */
-.work{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start}
-@media (max-width:1020px){.work{grid-template-columns:1fr}}
-.lib{align-content:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
-@media (max-width:1020px){.lib{position:static}}
-.lib-hd{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.btn.sm{padding:7px 11px;font-size:13px}
-.btn input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.btn{position:relative}
-.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:13px;color:var(--muted)}
-.crumbs button{background:none;border:0;padding:3px 2px;font:500 13px/1.2 var(--body);color:var(--muted);border-radius:4px}
+/* ---------- editor ---------- */
+.editor{overflow:hidden}
+.tools{flex-wrap:nowrap}
+.srcrow{flex:1 1 auto;min-width:0;flex-wrap:nowrap}
+.tools>.row:last-child{flex:none;flex-wrap:nowrap}
+.wavebox{position:relative;background:var(--hw);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px;flex:1 1 auto;min-height:0}
+.wavewrap{position:relative;flex:1 1 auto;min-height:56px}
+canvas{display:block;width:100%;touch-action:none}
+#wave{position:absolute;inset:0;width:100%;height:100%;border-radius:6px;background:var(--wave-bg);cursor:crosshair}
+#over{height:26px;flex:none;border-radius:5px;background:var(--wave-bg);cursor:pointer}
+.veil{position:absolute;inset:0;border-radius:10px;border:2px dashed var(--accent);background:rgba(20,22,25,.78);color:#fff;font:700 18px var(--display);letter-spacing:.06em;display:grid;place-items:center;text-transform:uppercase;z-index:2}
+.infoline{font-size:12px;line-height:1.4;color:var(--muted);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+.infoline .note{font-size:12px}
+#starterInfo:not([hidden]) + .hint{display:none}
+#starterInfo b{color:var(--ink);font-weight:600}
+.chop{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;flex:none}
+.params{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.chopgo{margin-left:auto;gap:10px}
+
+/* ---------- library ---------- */
+.lib{overflow:hidden}
+.lib-hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:12.5px;color:var(--muted);flex:none}
+.crumbs button{background:none;border:0;padding:3px 2px;font:500 12.5px/1.2 var(--body);color:var(--muted);border-radius:4px}
 .crumbs button:hover{color:var(--ink);text-decoration:underline}
 .crumbs button[aria-current]{color:var(--ink);font-weight:600;text-decoration:none;cursor:default}
-.lib-desc{font-size:12.5px;color:var(--muted);margin:0;line-height:1.45}
-.lib-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--panel2);overflow-y:auto;max-height:520px}
-@media (max-width:1020px){.lib-list{max-height:320px}}
+.lib-desc{font-size:12px;color:var(--muted);margin:0;line-height:1.4;flex:none}
+.lib-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--panel2);overflow-y:auto;flex:1 1 auto;min-height:0}
 .lrow{display:flex;align-items:stretch;border-bottom:1px solid var(--line);min-width:0}
 .lrow:last-child{border-bottom:0}
 .lrow button{border:0;border-radius:0;background:none;color:var(--ink)}
 .lrow button:hover{border-color:transparent;background:var(--accent-soft)}
-.lfold,.lopen{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:9px 12px;text-align:left}
+.lfold,.lopen{flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:8px 11px;text-align:left}
 .lfold .ic{width:17px;height:17px;flex:none;color:var(--muted)}
 .lfold.mine .ic{color:var(--accent)}
 .lt{display:grid;gap:2px;min-width:0;flex:1}
-.lopen{display:grid;gap:2px;justify-items:start}
-.ln{font:500 14px/1.25 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.lm{font:400 11.5px/1.2 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lopen{display:grid;gap:2px;justify-items:start;justify-content:start}
+.ln{font:500 13.5px/1.25 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.lm{font:400 11px/1.2 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .chev{color:var(--muted);font-size:18px;line-height:1}
-.lpv{flex:none;width:40px;justify-content:center;font-size:12px;color:var(--muted)!important;padding:0}
+.lpv{flex:none;width:36px;font-size:12px;color:var(--muted)!important;padding:0}
 .lpv.playing{color:var(--accent)!important}
-.ldel{flex:none;padding:0 12px;font-size:12px;color:var(--muted)!important;font-weight:500}
+.ldel{flex:none;padding:0 11px;font-size:12px;color:var(--muted)!important;font-weight:500}
 .ldel.armed{color:var(--warn)!important;font-weight:600}
 .lrow.on{background:var(--accent-soft)}
 .lrow.on .ln{color:var(--accent);font-weight:600}
-.lempty{padding:16px 14px;font-size:13px;color:var(--muted);line-height:1.5}
+.lempty{padding:14px 12px;font-size:12.5px;color:var(--muted);line-height:1.5}
 .lempty b{color:var(--ink);display:block;margin-bottom:4px}
-.lib-foot{font-size:12px;color:var(--muted);margin:0;min-height:1.4em}
+.lib-foot{font-size:11.5px;color:var(--muted);margin:0;min-height:1.4em;flex:none}
 .lib-foot.ok{color:var(--ok)}
 .lib-foot.err{color:var(--warn)}
-#starterInfo b{color:var(--ink);font-weight:600}
 
-/* layout */
-.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:start}
-@media (max-width:920px){.grid{grid-template-columns:1fr}}
-.side{display:grid;gap:20px;min-width:0}
-
-/* device */
-.device{background:var(--hw);border-radius:14px;padding:16px;display:grid;gap:14px;color:var(--pad-ink)}
-.devhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center}
+/* ---------- pads ---------- */
+.device{background:var(--hw);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;color:var(--pad-ink);min-width:0;min-height:0;overflow:hidden}
+.devhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:none}
 .devhead h2{color:var(--pad-mute)}
-.banks{display:flex;flex-wrap:wrap;gap:6px}
-.bank{font:700 15px/1 var(--display);width:40px;padding:7px 0 5px;display:grid;gap:3px;justify-items:center;background:var(--hw2);color:var(--pad-ink);border-color:transparent}
-.bank small{font:500 10px/1 var(--mono);color:var(--pad-mute)}
+.devbody{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:60px minmax(0,1fr);gap:10px}
+.banks{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,minmax(0,1fr));gap:4px;min-height:0}
+.bank{font:700 14px/1 var(--display);padding:0;display:grid;align-content:center;justify-items:center;gap:2px;background:var(--hw2);color:var(--pad-ink);border-color:transparent;min-height:0;border-radius:6px}
+.bank small{font:500 9.5px/1 var(--mono);color:var(--pad-mute)}
 .bank:hover{border-color:var(--accent)}
 .bank[aria-pressed="true"]{background:var(--pad-ink);color:var(--hw)}
 .bank[aria-pressed="true"] small{color:var(--hw)}
 .bank.empty{opacity:.4}
-.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.pad{aspect-ratio:1.2;max-width:100%;border-radius:9px;background:var(--pad);border:1px solid rgba(255,255,255,.06);color:var(--pad-mute);text-align:left;padding:9px 10px;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:4px;min-width:0;box-shadow:0 2px 0 rgba(0,0,0,.4);transition:transform .06s,box-shadow .06s}
-.pad .top{display:flex;justify-content:space-between;align-items:baseline;gap:4px}
-.pad .n{font:700 13px/1 var(--display);letter-spacing:.06em}
-.pad .k{font:500 10px/1 var(--mono);opacity:.6;text-transform:uppercase}
-.pad .nm{font:500 12.5px/1.25 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pad .meta{font:500 10.5px/1 var(--mono);font-variant-numeric:tabular-nums;opacity:.8}
+.pads{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:6px;min-height:0}
+.pad{min-height:0;min-width:0;border-radius:8px;background:var(--pad);border:1px solid rgba(255,255,255,.06);color:var(--pad-mute);text-align:left;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:2px;box-shadow:0 2px 0 rgba(0,0,0,.4);transition:transform .06s,box-shadow .06s;white-space:normal;overflow:hidden}
+.pad .top,.pad .bot{display:flex;justify-content:space-between;align-items:baseline;gap:6px;min-width:0}
+.pad .n{font:700 12.5px/1 var(--display);letter-spacing:.06em;display:inline-flex;align-items:baseline;gap:6px}
+.pad .k{font:500 9.5px/1 var(--mono);opacity:.6;text-transform:uppercase}
+.pad .nm{font:500 12.5px/1.25 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.pad .meta{font:500 10px/1 var(--mono);font-variant-numeric:tabular-nums;opacity:.8;flex:none}
 .pad.on{color:var(--pad-ink);border-color:rgba(255,153,46,.45);box-shadow:0 2px 0 rgba(0,0,0,.4),inset 0 0 16px rgba(255,153,46,.16)}
 .pad.on .n{color:#FF992E}
 .pad.rev .nm::after{content:" ◂";color:#FF992E}
-.pad.sel{outline:2px solid #FF992E;outline-offset:2px}
+.pad.sel{outline:2px solid #FF992E;outline-offset:1px}
 .pad.hit{transform:translateY(2px);box-shadow:0 0 0 rgba(0,0,0,.4),inset 0 0 26px rgba(255,153,46,.5)}
 .pad:disabled{cursor:default;opacity:.55}
 .pad:hover:not(:disabled){border-color:#FF992E}
-@media (max-width:480px){.pad{aspect-ratio:1;padding:7px}.pad .meta,.pad .k{display:none}}
-.devnote{font-size:12.5px;color:var(--pad-mute);margin:0}
+.devnote{font-size:11.5px;color:var(--pad-mute);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
 .devnote.warn{color:#E0A04A}
 
-/* inspector */
-.insp-hd{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.chip{font:700 14px/1 var(--display);letter-spacing:.06em;background:var(--ink);color:var(--panel);padding:6px 9px;border-radius:5px}
+/* ---------- slice ---------- */
+.insp-hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:none}
+.chip{font:700 13px/1 var(--display);letter-spacing:.06em;background:var(--ink);color:var(--panel);padding:5px 8px;border-radius:5px}
 .chip.off{background:var(--panel2);color:var(--muted)}
-.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
-.kv div{background:var(--panel2);border-radius:6px;padding:7px 9px;min-width:0}
-.kv dt{font:500 10px/1 var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
-.kv dd{margin:4px 0 0;font:500 14px/1.2 var(--mono);font-variant-numeric:tabular-nums}
-.fields{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
-.opts{display:grid;gap:8px}
-.bar{height:6px;background:var(--panel2);border-radius:3px;overflow:hidden}
+#iName{width:100%;flex:none}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0;flex:none}
+.kv div{background:var(--panel2);border-radius:6px;padding:6px 8px;min-width:0}
+.kv dt{font:500 9.5px/1 var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.kv dd{margin:4px 0 0;font:500 13px/1.2 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.insp .row{flex:none;gap:6px 14px}
+.btns3{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important}
+.btns3 button{padding:8px 6px}
+
+/* ---------- export ---------- */
+.exp>*{flex:none}
+.fields{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px}
+.inl{display:flex;align-items:center;border:1px solid var(--line);background:var(--panel2);border-radius:7px;min-width:0}
+.inl:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.inl>span{font:600 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-left:9px;white-space:nowrap}
+.inl input,.inl select{border:0;background:transparent;outline:none;flex:1 1 auto;min-width:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px}
+.exrow{display:flex;gap:6px}
+#exportBtn{flex:1 1 auto}
+.bar{height:4px;background:var(--panel2);border-radius:3px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .12s}
-.status{font-size:13px;color:var(--muted);min-height:1.5em;margin:0}
+.status{font-size:12px;color:var(--muted);min-height:1.4em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .status.ok{color:var(--ok)}
 .status.err{color:var(--warn)}
-.tree{font:12.5px/1.6 var(--mono);color:var(--muted);background:var(--panel2);border-radius:8px;padding:12px 14px;overflow-x:auto;white-space:pre;margin:0;max-height:220px;overflow-y:auto}
-.guide ol{margin:0;padding-left:20px;display:grid;gap:6px}
-.guide code{font:13px var(--mono);background:var(--panel2);padding:1px 5px;border-radius:4px}
-footer{color:var(--muted);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 18px}
+
+/* ---------- dialogs ---------- */
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);padding:0;width:min(620px,calc(100vw - 32px));max-height:min(80vh,720px);overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,11,13,.55)}
+.dlg-hd{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+.dlg-hd form{margin:0}
+.dlg-bd{padding:14px 16px 18px;display:grid;gap:12px;font-size:13.5px}
+.dlg-bd p{margin:0}
+.dlg-bd ul,.guide ol{margin:0;padding-left:20px;display:grid;gap:5px}
+.tree{font:12px/1.6 var(--mono);color:var(--muted);background:var(--panel2);border-radius:8px;padding:10px 12px;overflow:auto;white-space:pre;margin:0;max-height:240px}
+.guide{display:grid;gap:8px}
+.guide code,.dlg-bd code,kbd{font:12.5px var(--mono);background:var(--panel2);padding:1px 5px;border-radius:4px}
+kbd{border:1px solid var(--line)}
+.fine{font-size:12px;color:var(--muted)}
+
+/* ---------- short screens (e.g. 1280×720 laptops): tighten so it still fits ---------- */
+@media (max-height:640px){
+  :root{--gap:10px;--bot-min:232px}
+  .app{padding:8px 12px 10px;gap:8px}
+  .panel{padding:10px;gap:6px}
+  .device{padding:8px 10px;gap:6px}
+  .editor .infoline{display:none}
+  #over{height:20px}
+  .wavebox{padding:6px;gap:5px}
+  .mark{font-size:23px}
+  .lcd{padding:7px 12px}
+  .pad .k{display:none}
+}
+@media (max-width:1299px){.pad .k{display:none}}
+
+/* ---------- smaller or shorter screens: stack and scroll ---------- */
+@media (max-width:1179px),(max-height:539px){
+  .main{grid-template-columns:minmax(0,1fr);grid-template-rows:none}
+  .lib,.editor,.bottom{grid-column:auto;grid-row:auto}
+  .lib-list{flex:none;max-height:280px}
+  .wavewrap{flex:none;height:190px}
+  .bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .device{grid-column:1 / -1}
+  .devbody{display:flex;flex-direction:column}
+  .banks{display:flex;flex-wrap:wrap}
+  .bank{width:38px;height:38px}
+  .pads{grid-auto-rows:auto}
+  .pad{aspect-ratio:1.5}
+  .panel,.device{overflow:visible}
+}
+@media (max-width:700px){
+  .app{padding-inline:12px}
+  .top{flex-wrap:wrap}
+  .tag{display:none}
+  .lcd{order:3;flex-basis:100%;max-width:none}
+  .topr{margin-left:auto}
+  .bottom{grid-template-columns:minmax(0,1fr)}
+  .tools{flex-wrap:wrap}
+  .chopgo{margin-left:0}
+  .pad{aspect-ratio:1;padding:6px}
+  .pad .meta,.pad .k{display:none}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-</head>
-<body>
-<div class="wrap">
+
+<div class="app">
   <header class="top">
-    <div>
+    <div class="brand">
       <h1 class="mark">sp404<span>.app</span></h1>
-      <p class="tag">Chop any sound into SP-404 pads. Pick a sample from the library or upload your own loops and record rips, set your cuts, play them on the pads, and export a ZIP that's ready for the card. Your audio never leaves your browser.</p>
+      <p class="tag">Chop any sound into SP-404 pads</p>
     </div>
     <div class="lcd" id="lcd" aria-live="polite">Loading…</div>
+    <div class="topr">
+      <span class="legal">Not affiliated with Roland · SP-404 is a Roland trademark</span>
+      <button type="button" class="sm" id="helpBtn" aria-haspopup="dialog">? Help</button>
+    </div>
   </header>
 
-  <div class="work">
+  <main class="main">
   <aside class="panel lib" aria-label="Library">
     <div class="lib-hd">
       <h2>Library</h2>
@@ -212,8 +294,8 @@ footer{color:var(--muted);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 1
   </aside>
 
   <section class="panel editor" aria-label="Sample editor">
-    <div class="row between">
-      <div class="row">
+    <div class="row between tools">
+      <div class="row srcrow">
         <span class="src" id="srcLabel"></span>
         <span class="flag" id="demoFlag" hidden>Built-in</span>
       </div>
@@ -225,111 +307,138 @@ footer{color:var(--muted);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 1
       </div>
     </div>
     <div class="wavebox" id="wavebox">
-      <canvas id="wave" aria-label="Waveform with slice markers"></canvas>
+      <div class="wavewrap"><canvas id="wave" aria-label="Waveform with slice markers"></canvas></div>
       <canvas id="over" aria-label="Whole-file overview"></canvas>
       <div class="veil" id="veil" hidden>Drop to add to My samples</div>
     </div>
-    <p class="note" id="starterInfo" hidden></p>
-    <p class="hint">Click a slice to hear it. Double-click to add a cut. Drag an orange marker to move it; click one and press Delete to remove it. Scroll to zoom, shift-scroll or drag to pan. Drop audio files or folders anywhere on the page to add them to My samples.</p>
+    <p class="infoline"><span class="note" id="starterInfo" hidden></span><span class="hint">Click a slice to hear it · double-click to add a cut · drag a marker to move it, Delete removes it · scroll to zoom · drop audio anywhere to add it</span></p>
     <div class="chop">
-      <label class="f">Chop by
-        <div class="seg" role="group" aria-label="Chop mode" id="mode">
-          <button type="button" data-mode="transient">Transients</button>
-          <button type="button" data-mode="equal">Equal</button>
-          <button type="button" data-mode="beats">Beats</button>
-        </div>
-      </label>
+      <div class="seg" role="group" aria-label="Chop mode" id="mode">
+        <button type="button" data-mode="transient">Transients</button>
+        <button type="button" data-mode="equal">Equal</button>
+        <button type="button" data-mode="beats">Beats</button>
+      </div>
       <div class="params" id="pT">
-        <label class="f">Sensitivity <span class="row"><input type="range" id="sens" min="0" max="100" step="1"><span class="rv" id="sensV"></span></span></label>
-        <label class="f">Min gap (ms)<input type="number" id="gap" min="20" max="2000" step="10"></label>
+        <label class="il">Sensitivity <input type="range" id="sens" min="0" max="100" step="1"><span class="rv" id="sensV"></span></label>
+        <label class="il">Min gap <input type="number" id="gap" min="20" max="2000" step="10"> ms</label>
       </div>
       <div class="params" id="pE" hidden>
-        <label class="f">Slices
+        <label class="il">Slices
           <select id="equalN"><option>2</option><option>4</option><option>8</option><option>12</option><option>16</option><option>24</option><option>32</option><option>48</option><option>64</option></select>
         </label>
       </div>
       <div class="params" id="pB" hidden>
-        <label class="f">BPM<input type="number" id="bpm" min="40" max="300" step="0.1"></label>
-        <label class="f">One slice every
+        <label class="il">BPM <input type="number" id="bpm" min="40" max="300" step="0.1"></label>
+        <label class="il">One slice every
           <select id="every"><option value="0.25">1/16 note</option><option value="0.5">1/8 note</option><option value="1">beat</option><option value="2">2 beats</option><option value="4">bar</option><option value="8">2 bars</option></select>
         </label>
       </div>
-      <label class="opt"><input type="checkbox" id="snap"><span>Snap to zero crossings<small>Avoids clicks at the cut.</small></span></label>
-      <div class="row">
+      <label class="opt" title="Moves each cut to the nearest zero crossing, so it doesn't click."><input type="checkbox" id="snap"><span>Snap to zero</span></label>
+      <div class="row chopgo">
         <button type="button" class="primary" id="chopBtn">Chop</button>
         <button type="button" class="link" id="clearBtn">Clear cuts</button>
       </div>
     </div>
   </section>
-  </div>
 
-  <div class="grid">
+  <div class="bottom">
     <section class="device" aria-label="Pads">
       <div class="devhead">
         <h2 id="devTitle">SP-404MKII · Bank A</h2>
-        <div class="banks" id="banks"></div>
       </div>
-      <div class="pads" id="pads"></div>
+      <div class="devbody">
+        <div class="banks" id="banks"></div>
+        <div class="pads" id="pads"></div>
+      </div>
       <p class="devnote" id="devnote"></p>
     </section>
 
-    <div class="side">
-      <section class="panel" aria-label="Selected slice">
-        <div class="insp-hd"><h2>Slice</h2><span class="chip" id="iPad">A01</span></div>
-        <label class="f">Name (goes in the file name)<input type="text" id="iName" maxlength="24" placeholder="e.g. kick, stab, vox"></label>
-        <dl class="kv">
-          <div><dt>Start</dt><dd id="iStart">—</dd></div>
-          <div><dt>Length</dt><dd id="iLen">—</dd></div>
-          <div><dt>Peak</dt><dd id="iPeak">—</dd></div>
-        </dl>
-        <div class="row">
-          <label class="opt"><input type="checkbox" id="iRev"><span>Reverse</span></label>
-          <label class="opt"><input type="checkbox" id="iSkip"><span>Leave off the pads</span></label>
-        </div>
-        <div class="row">
-          <button type="button" id="iPlay">▶ Play</button>
-          <button type="button" id="iSplit">Split in half</button>
-          <button type="button" id="iMerge">Merge with previous</button>
-        </div>
-      </section>
+    <section class="panel insp" aria-label="Selected slice">
+      <div class="insp-hd"><h2>Slice</h2><span class="chip" id="iPad">A01</span></div>
+      <input type="text" id="iName" maxlength="24" placeholder="Name it, e.g. kick, stab" aria-label="Slice name (goes in the file name)" title="The name goes in the file name">
+      <dl class="kv">
+        <div><dt>Start</dt><dd id="iStart">—</dd></div>
+        <div><dt>Length</dt><dd id="iLen">—</dd></div>
+        <div><dt>Peak</dt><dd id="iPeak">—</dd></div>
+      </dl>
+      <div class="row">
+        <label class="opt"><input type="checkbox" id="iRev"><span>Reverse</span></label>
+        <label class="opt"><input type="checkbox" id="iSkip"><span>Leave off pads</span></label>
+      </div>
+      <div class="row btns3">
+        <button type="button" id="iPlay">▶ Play</button>
+        <button type="button" id="iSplit" title="Split this slice in half">Split</button>
+        <button type="button" id="iMerge" title="Merge with the previous slice">Merge ←</button>
+      </div>
+    </section>
 
-      <section class="panel" aria-label="Export">
-        <h2>Export for</h2>
-        <div class="seg full" role="group" aria-label="Target" id="target">
-          <button type="button" data-t="mkii">MKII</button>
-          <button type="button" data-t="sx">SX · A</button>
-          <button type="button" data-t="og">Original</button>
-          <button type="button" data-t="daw">DAW</button>
-        </div>
-        <p class="note" id="tNote"></p>
-        <div class="fields">
-          <label class="f">Kit name<input type="text" id="kit" maxlength="16"></label>
-          <label class="f">Start at bank<select id="startBank"></select></label>
-        </div>
-        <div class="opts">
-          <label class="opt"><input type="checkbox" id="oNorm"><span>Normalize each pad<small>Peaks to −0.3 dB so quiet chops come up to level.</small></span></label>
-          <label class="opt"><input type="checkbox" id="oDeclick"><span>Declick edges<small>Short fade in and out on every pad.</small></span></label>
-          <label class="opt"><input type="checkbox" id="oMono"><span>Mono<small>Halves the size. Good for drums on the SX's small memory.</small></span></label>
-          <label class="opt"><input type="checkbox" id="oBpm"><span>Tempo in file names<small>Adds e.g. <code>92bpm</code> to the name (MKII and DAW).</small></span></label>
-        </div>
+    <section class="panel exp" aria-label="Export">
+      <h2>Export for</h2>
+      <div class="seg full" role="group" aria-label="Target" id="target">
+        <button type="button" data-t="mkii">MKII</button>
+        <button type="button" data-t="sx">SX · A</button>
+        <button type="button" data-t="og">Original</button>
+        <button type="button" data-t="daw">DAW</button>
+      </div>
+      <div class="fields">
+        <label class="inl"><span>Kit</span><input type="text" id="kit" maxlength="16" aria-label="Kit name"></label>
+        <label class="inl"><span>Start</span><select id="startBank" aria-label="Start at bank"></select></label>
+      </div>
+      <div class="opts">
+        <label class="opt" title="Peaks to −0.3 dB so quiet chops come up to level."><input type="checkbox" id="oNorm"><span>Normalize</span></label>
+        <label class="opt" title="Short fade in and out on every pad."><input type="checkbox" id="oDeclick"><span>Declick</span></label>
+        <label class="opt" title="Halves the size. Good for drums on the SX's small memory."><input type="checkbox" id="oMono"><span>Mono</span></label>
+        <label class="opt" title="Adds e.g. 92bpm to the file names (MKII and DAW)."><input type="checkbox" id="oBpm"><span>BPM in names</span></label>
+      </div>
+      <div class="exrow">
         <button type="button" class="primary" id="exportBtn">Export ZIP</button>
-        <div class="bar" aria-hidden="true"><i id="prog"></i></div>
-        <p class="status" id="status" role="status"></p>
-        <pre class="tree" id="tree"></pre>
-        <div class="guide">
-          <h3 id="guideTitle">Load it on the MKII</h3>
-          <ol id="guide"></ol>
-        </div>
-      </section>
+        <button type="button" id="stepsBtn" aria-haspopup="dialog" title="See the files in the ZIP and how to load them">Load steps</button>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+      <p class="status" id="status" role="status"></p>
+    </section>
+  </div>
+  </main>
+</div>
+
+<dialog id="stepsDlg" aria-labelledby="guideTitle">
+  <div class="dlg-hd"><h2>Files &amp; load steps</h2><form method="dialog"><button class="sm">Close</button></form></div>
+  <div class="dlg-bd">
+    <p class="note" id="tNote"></p>
+    <pre class="tree" id="tree"></pre>
+    <div class="guide">
+      <h3 id="guideTitle">Load it on the MKII</h3>
+      <ol id="guide"></ol>
     </div>
   </div>
+</dialog>
 
-  <footer>
-    <span>sp404.app · free sampler tools for the SP-404 family</span>
-    <span>More free tools: Padlift 404 (card → DAW) and SP-404 Import (folder → card)</span>
-    <span>Not affiliated with Roland Corporation. SP-404 is a trademark of Roland.</span>
-  </footer>
-</div>
+<dialog id="helpDlg" aria-labelledby="helpTitle">
+  <div class="dlg-hd"><h2 id="helpTitle">How sp404.app works</h2><form method="dialog"><button class="sm">Close</button></form></div>
+  <div class="dlg-bd">
+    <p>Chop any sound into SP-404 pads. Pick a sample from the library or upload your own loops and record rips, set your cuts, play them on the pads, and export a ZIP that's ready for the card. Your audio never leaves your browser.</p>
+    <h3>Editing the cuts</h3>
+    <ul>
+      <li>Click a slice to hear it. Double-click to add a cut.</li>
+      <li>Drag an orange marker to move it. Click one and press <kbd>Delete</kbd> to remove it.</li>
+      <li>Scroll to zoom. Shift-scroll or drag to pan, or click the overview strip.</li>
+      <li>Drop audio files or folders anywhere on the page to add them to My samples.</li>
+    </ul>
+    <h3>Keys</h3>
+    <ul>
+      <li><kbd>1</kbd>–<kbd>4</kbd> · <kbd>Q</kbd>–<kbd>R</kbd> · <kbd>A</kbd>–<kbd>F</kbd> · <kbd>Z</kbd>–<kbd>V</kbd> play pads 1–16 of the bank on screen.</li>
+      <li><kbd>←</kbd> <kbd>→</kbd> step through the slices.</li>
+    </ul>
+    <h3>Export options</h3>
+    <ul>
+      <li><b>Normalize</b> peaks each pad to −0.3 dB so quiet chops come up to level.</li>
+      <li><b>Declick</b> adds a short fade in and out to every pad.</li>
+      <li><b>Mono</b> halves the size. Good for drums on the SX's small memory.</li>
+      <li><b>BPM in names</b> adds e.g. <code>92bpm</code> to the file names (MKII and DAW).</li>
+    </ul>
+    <p class="fine">sp404.app · free sampler tools for the SP-404 family. More free tools: Padlift 404 (card → DAW) and SP-404 Import (folder → card).<br>Not affiliated with Roland Corporation. SP-404 is a trademark of Roland.</p>
+  </div>
+</dialog>
 
 <script>
 (() => {
@@ -740,6 +849,7 @@ function renderInfo(it) {
   const el = $("#starterInfo");
   el.hidden = !it;
   if (it) el.innerHTML = `<b>${esc(it.name)}</b> · ${it.bpm} BPM · ${it.after.startsWith("Original") ? esc(it.after) : "Pattern after " + esc(it.after)}. Built by sp404.app, not the original recording, so it's free to use.`;
+  el.title = it ? el.textContent : ""; $("#demoFlag").title = el.title;
 }
 function stopPreview() {
   pvTok++; pvLoading = "";
@@ -1130,9 +1240,9 @@ function renderPads() {
   let html = "";
   for (let p = 1; p <= per; p++) {
     const i = at[p], key = KEYS[p - 1];
-    if (i === undefined) { html += `<button type="button" class="pad" data-pad="${p}" disabled><span class="top"><span class="n">${p}</span><span class="k">${key}</span></span><span class="nm">empty</span><span class="meta">&nbsp;</span></button>`; continue; }
+    if (i === undefined) { html += `<button type="button" class="pad" data-pad="${p}" disabled><span class="top"><span class="n">${p}<span class="k">${key}</span></span></span><span class="bot"><span class="nm">empty</span></span></button>`; continue; }
     const m = S.meta[i], dur = (S.bounds[i + 1] - S.bounds[i]) / S.sr;
-    html += `<button type="button" class="pad on${i === S.sel ? " sel" : ""}${m.rev ? " rev" : ""}" data-pad="${p}" data-i="${i}" aria-label="Pad ${BANKS[S.bank]}${p}: ${esc(m.name || "slice " + (i + 1))}"><span class="top"><span class="n">${p}</span><span class="k">${key}</span></span><span class="nm">${esc(m.name || "slice " + String(i + 1).padStart(2, "0"))}</span><span class="meta">${fmtT(dur)}</span></button>`;
+    html += `<button type="button" class="pad on${i === S.sel ? " sel" : ""}${m.rev ? " rev" : ""}" data-pad="${p}" data-i="${i}" aria-label="Pad ${BANKS[S.bank]}${p}: ${esc(m.name || "slice " + (i + 1))}"><span class="top"><span class="n">${p}<span class="k">${key}</span></span><span class="meta">${fmtT(dur)}</span></span><span class="bot"><span class="nm">${esc(m.name || "slice " + String(i + 1).padStart(2, "0"))}</span></span></button>`;
   }
   $("#pads").innerHTML = html;
   const used = map.filter(Boolean).length, over = S.meta.filter(m => !m.skip).length - used;
@@ -1141,6 +1251,7 @@ function renderPads() {
   note.textContent = over > 0
     ? `${over} slice${over > 1 ? "s don't" : " doesn't"} fit on the pads (bank J is full). Start at an earlier bank, merge slices, or leave some off.`
     : `${used} pad${used === 1 ? "" : "s"} filled. Keys ${per === 16 ? "1–4 · Q–R · A–F · Z–V" : "1–4 · Q–R · A–F"} play bank ${BANKS[S.bank]}.`;
+  note.title = note.textContent;
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 $("#banks").addEventListener("click", e => { const b = e.target.closest("[data-bank]"); if (!b) return; S.bank = +b.dataset.bank; renderBanks(); renderPads(); });
@@ -1230,6 +1341,7 @@ function renderTarget() {
   $("#guideTitle").textContent = S.p.target === "daw" ? "Load it into your DAW" : `Load it on the ${t.name}`;
   $("#guide").innerHTML = GUIDES[S.p.target].map(s => `<li>${s.replace("KIT A", esc((safe(S.p.kit) || "KIT") + " " + BANKS[S.p.startBank]))}</li>`).join("");
   $("#startBank").innerHTML = BANKS.map((b, i) => `<option value="${i}"${i === S.p.startBank ? " selected" : ""}>Bank ${b}</option>`).join("");
+  const st = $("#status"); if (!st.textContent || st.classList.contains("idle")) setStatus("");
 }
 async function renderSlice(i, rate) {
   const a = S.bounds[i], b = S.bounds[i + 1], n = b - a, m = S.meta[i];
@@ -1332,7 +1444,7 @@ async function offer(blob, name, count) {
   setTimeout(() => URL.revokeObjectURL(url), 5000);
   setStatus(`Downloaded ${name}: ${count} pads, ${mb} MB.`, "ok");
 }
-function setStatus(msg, kind) { const s = $("#status"); s.textContent = msg; s.className = "status" + (kind ? " " + kind : ""); }
+function setStatus(msg, kind) { const s = $("#status"); s.textContent = msg || TARGETS[S.p.target].note; s.title = s.textContent; s.className = "status" + (kind ? " " + kind : "") + (msg ? "" : " idle"); }
 
 /* ---------------- controls ---------------- */
 function renderMode() {
@@ -1378,6 +1490,7 @@ window.addEventListener("drop", e => { e.preventDefault(); dragDepth = 0; $("#ve
 
 document.addEventListener("keydown", e => {
   const tag = (e.target.tagName || "").toLowerCase();
+  if (document.querySelector("dialog[open]")) return;
   if (tag === "input" || tag === "select" || tag === "textarea" || e.metaKey || e.ctrlKey || e.altKey) return;
   if ((e.key === "Delete" || e.key === "Backspace") && S.selCut > 0) { e.preventDefault(); removeCut(S.selCut); return; }
   if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
@@ -1390,6 +1503,10 @@ document.addEventListener("keydown", e => {
   const map = mapping(), i = map.findIndex(m => m && m.bank === S.bank && m.pad === k + 1);
   if (i >= 0) { e.preventDefault(); select(i, true); }
 });
+const openDlg = id => { const d = $(id); if (typeof d.showModal === "function") d.showModal(); else d.setAttribute("open", ""); };
+$("#stepsBtn").addEventListener("click", () => { renderTree(); openDlg("#stepsDlg"); });
+$("#helpBtn").addEventListener("click", () => openDlg("#helpDlg"));
+document.querySelectorAll("dialog").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
 new ResizeObserver(() => drawWave()).observe(cvW);
 
 bindControls();
@@ -1399,6 +1516,5 @@ renderLib();
 openKey(startKey).then(initLib);
 })();
 </script>
-
 </body>
 </html>
